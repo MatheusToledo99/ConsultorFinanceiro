@@ -1,0 +1,35 @@
+quantia_poupada(21000).
+ganhos(50000, estavel).
+dependentes(2).
+perfil(2). 
+
+% Usuario, caso você esteja no mercado de invstimento, para o parametro perfil, temos:
+% 1 - Conservador
+% 2 - Moderado
+% 3 - Agressivo
+
+% Caso você não investa, entre com: 0 - Não tenho perfil investidor.
+
+
+
+poupanca_min(K, Y):- K is Y * 5000.
+conta_poupanca(adequada):- quantia_poupada(X), dependentes(Y), poupanca_min(K,Y), X > K. 
+conta_poupanca(inadequada) :- quantia_poupada(X), dependentes(Y), poupanca_min(K,Y), X < K. 
+
+renda_min(K, Y) :- K is 15000 + (4000 * Y).
+renda(adequada) :- ganhos(X, estavel), dependentes(Y), renda_min(K, Y), X > K.
+renda(inadequada) :- ganhos(X, estavel), dependentes(Y), renda_min(K, Y), X < K.
+
+  
+
+investimento(poupanca) :- conta_poupanca(inadequada), perfil(X), X = 0.
+investimento(poupanca_rendaFixa) :- conta_poupanca(adequada), renda(adequada), perfil(X), X = 1.
+investimento(rendaFixa_acoes_fundosImobiliarios) :- conta_poupanca(adequada), renda(adequada), perfil(X), X = 2.
+investimento(rendaFixa_acoes_bitCoin) :- conta_poupanca(adequada), renda(adequada), perfil(X), X = 3.
+investimento(combinacao) :- conta_poupanca(adequada), renda(inadequada), perfil(X), X = 0.
+
+% Se nosso Consultor de investimento não seja capaz de indicar algo, nós retornaremos - false - .
+
+
+
+
